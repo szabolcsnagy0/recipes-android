@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Recipes</string>
+    <string name="rating">Rating</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="ingredients">Ingredients</string>
+</resources>
