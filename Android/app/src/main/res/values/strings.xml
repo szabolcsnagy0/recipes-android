@@ -6,4 +6,8 @@
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
     <string name="ingredients">Ingredients</string>
+    <string name="servings">Servings</string>
+    <string name="instructions">Instructions</string>
+    <string name="arrow">Arrow Icon</string>
+    <string name="back">Arrow Back</string>
 </resources>

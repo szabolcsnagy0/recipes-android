@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.recipes.ui.navigation.Navigation
+import com.recipes.ui.recipedetails.RecipeDetails
 import com.recipes.ui.recipeslist.ListItem
 import com.recipes.ui.recipeslist.RecipesList
 import com.recipes.ui.theme.RecipesTheme
@@ -19,12 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RecipesTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    RecipesList()
-                }
+                Navigation()
             }
         }
     }

@@ -29,6 +29,7 @@ import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -53,11 +54,13 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.recipes.R
 import com.recipes.data.Difficulty
+import com.recipes.ui.shared.DifficultyElement
+import com.recipes.ui.shared.StarRating
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun ListItem(
@@ -79,7 +82,8 @@ fun ListItem(
         image = "https://cdn.dummyjson.com/recipe-images/3.webp",
         rating = 3.5
     ),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     ElevatedCard(
         modifier = modifier
@@ -90,7 +94,8 @@ fun ListItem(
             containerColor = colorResource(id = R.color.white)
         ),
         shape = RoundedCornerShape(15),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 7.dp)
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 7.dp),
+        onClick = onClick
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -154,7 +159,8 @@ fun ListItem(
                             Text(
                                 text = it,
                                 fontSize = 12.sp,
-                                modifier = Modifier.padding(top = 2.dp)
+                                modifier = Modifier.padding(top = 2.dp),
+                                maxLines = 1
                             )
                         }
                     }
@@ -166,7 +172,7 @@ fun ListItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 30.dp, vertical=5.dp),
+                    .padding(horizontal = 30.dp, vertical = 5.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -176,63 +182,5 @@ fun ListItem(
                 }
             }
         }
-    }
-}
-
-@Composable
-fun StarRating(rating: Double?, modifier: Modifier = Modifier) {
-    rating?.let {
-        Row(
-            modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            val maxStarCount = 5
-            val starCount = floor(it).toInt()
-            for (i in 1..starCount) {
-                Icon(
-                    Icons.Filled.Star,
-                    contentDescription = stringResource(id = R.string.rating),
-                    tint = colorResource(id = R.color.black)
-                )
-            }
-            for (i in starCount ..< maxStarCount) {
-                Icon(
-                    Icons.Filled.StarOutline,
-                    contentDescription = stringResource(id = R.string.rating),
-                    tint = colorResource(id = R.color.black)
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun DifficultyElement(difficulty: Difficulty = Difficulty.MEDIUM, modifier: Modifier = Modifier) {
-    val (icon, text) = when (difficulty) {
-        Difficulty.EASY -> {
-            Icons.Filled.SentimentVerySatisfied to stringResource(id = R.string.easy)
-        }
-
-        Difficulty.MEDIUM -> {
-            Icons.Filled.SentimentSatisfiedAlt to stringResource(id = R.string.medium)
-        }
-
-        Difficulty.HARD -> {
-            Icons.Filled.SentimentDissatisfied to stringResource(id = R.string.hard)
-        }
-    }
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = text,
-            tint = colorResource(id = R.color.black),
-            modifier = Modifier.padding(end = 5.dp)
-        )
-        Text(text = text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
     }
 }
