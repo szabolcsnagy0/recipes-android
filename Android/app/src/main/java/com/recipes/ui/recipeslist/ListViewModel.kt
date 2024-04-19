@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,24 +20,27 @@ class ListViewModel : ViewModel() {
     private var _recipes = MutableLiveData<List<RecipeData?>>(
         emptyList()
     )
-    var recipes = _recipes
 
-    val selectedRecipe: MutableState<RecipeData?> = mutableStateOf(null)
-
-    var searchQuery = MutableLiveData("")
-        set(newValue) {
-            field = newValue
-            _recipes.value?.filter { recipe ->
-                newValue.value?.let { query ->
+    val recipes: MutableLiveData<List<RecipeData?>>
+        get() {
+            if(searchQuery.value.isNullOrEmpty()) {
+                return _recipes
+            }
+            return _recipes.value?.filter { recipe ->
+                searchQuery.value?.let {
                     recipe?.name?.contains(
-                        query,
+                        it,
                         ignoreCase = true
                     )
                 } ?: true
-            }?.also {
-                recipes.value = emptyList()
+            }.let {
+                MutableLiveData(it)
             }
         }
+
+    val selectedRecipe: MutableState<RecipeData?> = mutableStateOf(null)
+
+    val searchQuery = MutableLiveData(String())
 
     init {
         fetchRecipes()
@@ -61,7 +65,7 @@ class ListViewModel : ViewModel() {
                     Log.i("get-recipe", response.body().toString())
                     onResult(true, null)
                 } else {
-                    Log.e("get-recipes", "${response.code()} ${response.message()}")
+                    Log.e("get-recipe", "${response.code()} ${response.message()}")
                     onResult(false, "Hiba! ${response.code()} ${response.message()}")
                 }
             }
