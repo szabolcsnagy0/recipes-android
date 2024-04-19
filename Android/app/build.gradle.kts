@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.lottie.compose)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.compose)
     implementation(libs.androidx.material.icons.extended)

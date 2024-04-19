@@ -26,14 +26,14 @@ fun StarRating(rating: Double?, modifier: Modifier = Modifier) {
                 Icon(
                     Icons.Filled.Star,
                     contentDescription = stringResource(id = R.string.rating),
-                    tint = colorResource(id = R.color.dark_orange)
+                    tint = colorResource(id = R.color.orange)
                 )
             }
             for (i in starCount ..< maxStarCount) {
                 Icon(
                     Icons.Filled.StarOutline,
                     contentDescription = stringResource(id = R.string.rating),
-                    tint = colorResource(id = R.color.dark_orange)
+                    tint = colorResource(id = R.color.orange)
                 )
             }
         }

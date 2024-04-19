@@ -2,10 +2,7 @@ package com.recipes.ui.recipeslist
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.recipes.api.ApiService
@@ -50,7 +47,7 @@ class ListViewModel : ViewModel() {
         selectedRecipe.value = recipeData
     }
 
-    private fun fetchRecipes(onResult: (Boolean, String?) -> Unit = { _, _ -> }) {
+    private fun fetchRecipes() {
         val call = ApiService.api.getRecipes()
         call?.enqueue(object : Callback<ResponseData?> {
 
@@ -63,16 +60,13 @@ class ListViewModel : ViewModel() {
                         _recipes.value = it
                     }
                     Log.i("get-recipe", response.body().toString())
-                    onResult(true, null)
                 } else {
                     Log.e("get-recipe", "${response.code()} ${response.message()}")
-                    onResult(false, "Hiba! ${response.code()} ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ResponseData?>, t: Throwable) {
                 Log.e("get-recipe", t.message.toString())
-                onResult(false, "Hiba! ${t.message.toString()}!")
             }
         })
     }
