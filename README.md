@@ -1,4 +1,4 @@
-# Recipe Android APP
+# Recipes Android APP
 
 Demo Android application that uses *Jetpack Compose*, *Glide*, *Retrofit*, *LottieAnimations*, etc.
 
